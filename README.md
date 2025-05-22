@@ -126,11 +126,15 @@ Seasonal and trend decomposition charts
 
 The XGBoost model achieves:
 
-Training Accuracy: [Add your specific metrics]
 
-Cross-validation Score: [Add your CV score]
+ 'RMSE train (CV Mean)': 0.594137155312048,
+ 
+ 'R² Score train (CV Mean)': 0.9956720319291061,
+ 
+ 'RMSE test': 0.31298299751742403,
+ 
+ 'R² Score test': 0.9993926128160098}
 
-Test RMSE: [Add your RMSE value]
 
 Feature Importance: Meteorological conditions, temporal factors, and location data
 
@@ -189,4 +193,5 @@ Open a Pull Request
  Integration with weather forecasting data
 
 
+<img width="1364" alt="image" src="https://github.com/user-attachments/assets/aa311ed9-d3dd-4a0e-a6f9-fad0c2f05bee" />
 
