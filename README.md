@@ -195,3 +195,15 @@ Open a Pull Request
 
 <img width="1364" alt="image" src="https://github.com/user-attachments/assets/aa311ed9-d3dd-4a0e-a6f9-fad0c2f05bee" />
 
+
+The output is 
+
+
+<img width="1395" alt="image" src="https://github.com/user-attachments/assets/36fc9005-b779-41a9-a26d-baaeb88c5576" />
+<img width="1380" alt="image" src="https://github.com/user-attachments/assets/ead6e77e-90ce-4fbb-973b-c23cb226a415" />
+<img width="1375" alt="image" src="https://github.com/user-attachments/assets/ec9404a5-9bdb-410f-821b-3e50e1af6940" />
+
+
+
+
+
