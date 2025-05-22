@@ -1,0 +1,16 @@
+.env
+.DS_Store
+
+# Checkpoints and model files
+*.ckpt
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.bin
+*.model
+*.weights
+checkpoints/
+models/
+runs/
+wandb/

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality Predictor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('https://cdn.shopify.com/s/files/1/0677/4059/8571/articles/MostPolluted_Desktop_A_f6540a8e-007a-4341-8e12-6c640eb4f030.jpg?v=1705573810');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: 'Poppins', sans-serif;
+        }
+        .content-wrapper {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        .glass-input {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .gradient-button {
+            background: linear-gradient(135deg, #0EA5E9 0%, #10B981 100%);
+            transition: all 0.3s ease;
+        }
+        .gradient-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-16">
+        <div class="max-w-2xl mx-auto content-wrapper rounded-2xl shadow-xl p-8 fade-in">
+            <h1 class="text-4xl font-bold text-gray-800 mb-4 text-center bg-gradient-to-r from-sky-500 to-emerald-500 bg-clip-text text-transparent">AIR Quality CA</h1>
+            <p class="text-gray-600 mb-8 text-center text-lg">
+                Get AI-powered predictions for air quality in your area. Enter a location and date to see the forecast.
+            </p>
+
+            <!-- Prediction Form -->
+            <form id="predictionForm" class="mb-8">
+                <div class="space-y-6">
+                    <div class="transform transition-all duration-300 hover:scale-[1.02]">
+                        <label for="location" class="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                        <input type="text" id="location" name="location" 
+                               placeholder="Enter County or Region" 
+                               class="w-full px-4 py-3 rounded-xl glass-input focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                               required>
+                    </div>
+                    <div class="transform transition-all duration-300 hover:scale-[1.02]">
+                        <label for="date" class="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                        <input type="date" id="date" name="date" 
+                               class="w-full px-4 py-3 rounded-xl glass-input focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                               required>
+                    </div>
+                    <button type="submit" 
+                            class="w-full gradient-button text-white font-semibold py-3 px-6 rounded-xl transition duration-300 transform hover:scale-[1.02]">
+                        Get Prediction
+                    </button>
+                </div>
+            </form>
+
+            <!-- Loading Indicator -->
+            <div id="loading" class="hidden">
+                <div class="flex items-center justify-center space-x-3">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+                    <span class="text-gray-600 font-medium">Generating prediction...</span>
+                </div>
+            </div>
+
+            <!-- Prediction Result -->
+            <div id="result" class="hidden mt-8 fade-in">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Prediction Result</h2>
+                <div id="predictionContent" class="bg-gray-50 rounded-xl p-6 whitespace-pre-line shadow-inner"></div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="error" class="hidden mt-4 p-4 bg-red-100 text-red-700 rounded-xl border border-red-200"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const location = document.getElementById('location').value;
+            const date = document.getElementById('date').value;
+            
+            // Show loading, hide other elements
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('error').classList.add('hidden');
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        location: location,
+                        date: date
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('predictionContent').textContent = data.prediction;
+                    document.getElementById('result').classList.remove('hidden');
+                } else {
+                    throw new Error(data.error || 'Failed to get prediction');
+                }
+            } catch (error) {
+                document.getElementById('error').textContent = error.message;
+                document.getElementById('error').classList.remove('hidden');
+            } finally {
+                document.getElementById('loading').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html> 
